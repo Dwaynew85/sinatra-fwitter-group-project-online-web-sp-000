@@ -30,12 +30,12 @@ class TweetsController < ApplicationController
         else
           flash[:error] = "Please try submittting Tweet again."
           redirect to "/tweets/new"
-        end 
-      end 
-    else 
+        end
+      end
+    else
       flash[:error] = "You must be logged in to complete that action."
       redirect to '/login'
-    end          
+    end
   end
 
   get '/tweets/:id/edit' do

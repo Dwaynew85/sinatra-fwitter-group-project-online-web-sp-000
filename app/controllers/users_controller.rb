@@ -49,9 +49,9 @@ class UsersController < ApplicationController
       session.clear
       flash[:message] "Log Out Successful"
       redirect '/login'
-    else 
+    else
       redirect to '/'
-    end 
+    end
   end
 
 end

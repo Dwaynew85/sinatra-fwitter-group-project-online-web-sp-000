@@ -53,6 +53,7 @@ class TweetsController < ApplicationController
       @tweet = Twee.find_by(id: params[:id])
       erb :"/tweets/edit_tweet"
     else
+      flash[:error] = "You must be logged in to complete that action."
       redirect :'/login'
     end
   end

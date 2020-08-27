@@ -13,12 +13,14 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
-    if logged_in?
-      redirect "/tweets"
+    if params[:username] =="" || params[:email] == "" || params[:password] == ""
+      flash[:error] = "Please enter infor for all fields"
+      redirect to '/signup'
     else
       @user = User.create(params)
-      session[:user_id] = @user.id
-      redirect "/tweets/index"
+      session[:user_id] = @user.id 
+      flash[:message] = "Welcome #{@user.username}!"
+      redirect to '/tweets'
     end
   end
 

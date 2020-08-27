@@ -18,7 +18,7 @@ class UsersController < ApplicationController
       redirect to '/signup'
     else
       @user = User.create(params)
-      session[:user_id] = @user.id 
+      session[:user_id] = @user.id
       flash[:message] = "Welcome #{@user.username}!"
       redirect to '/tweets'
     end

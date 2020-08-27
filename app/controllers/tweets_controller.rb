@@ -56,7 +56,7 @@ class TweetsController < ApplicationController
         else
           redirect to '/tweets'
         end
-      else 
+      else
         flash[:error] = "You must be logged in to complete that action."
         redirect :'/login'
       end

@@ -73,14 +73,14 @@ class TweetsController < ApplicationController
           if @tweet.update(content: params[:content])
             flash[:message] = "Tweet Update Successful"
             redirect to "/tweets/#{@tweet.id}"
-          else 
+          else
             flash[:error] = "Tweet Update Unsuccessful"
             redirect to "/tweets/#{@tweet.id}/edit"
           end
         else
           redirect "/tweets"
         end
-      end 
+      end
     else
       flash[:error] = "You must be logged in to complete that action."
       redirect to '/login'

@@ -11,16 +11,31 @@ class TweetsController < ApplicationController
 
   get '/tweets/new' do
     if logged_in?
-      erb :"/tweets/new"
+      erb :"/tweets/create_tweet"
     else
       redirect :'/login'
     end
   end
 
   post '/tweets' do
-    @tweet = Tweet.create(params)
-    @tweet.user_id = current_user.id
-    redirect "/tweets/#{@tweet.id}"
+    if logged_in?
+      if params[:content] == ""
+        flash[:error] = "Please enter Tweet content."
+        redirect to "/tweets/new"
+      else
+        @tweet = current_user.tweets.build(params)
+        if @tweet.save
+          flash[:message] = "Tweet Successful!"
+          redirect to "/tweets/#{@tweet.id}"
+        else
+          flash[:error] = "Please try submittting Tweet again."
+          redirect to "/tweets/new"
+        end 
+      end 
+    else 
+      flash[:error] = "You must be logged in to complete that action."
+      redirect to '/login'
+    end          
   end
 
   get '/tweets/:id/edit' do

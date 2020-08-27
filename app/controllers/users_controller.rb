@@ -9,7 +9,8 @@ class UsersController < ApplicationController
     if logged_in?
       redirect to '/tweets'
     else
-    erb :"/users/create_user"
+      erb :"/users/create_user"
+    end
   end
 
   post '/signup' do

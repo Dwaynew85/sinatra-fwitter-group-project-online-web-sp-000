@@ -20,20 +20,16 @@ class TweetsController < ApplicationController
   post '/tweets' do
     if logged_in?
       if params[:content] == ""
-        flash[:error] = "Please enter Tweet content."
         redirect to "/tweets/new"
       else
         @tweet = current_user.tweets.build(params)
         if @tweet.save
-          flash[:message] = "Tweet Successful!"
           redirect to "/tweets/#{@tweet.id}"
         else
-          flash[:error] = "Please try submittting Tweet again."
           redirect to "/tweets/new"
         end
       end
     else
-      flash[:error] = "You must be logged in to complete that action."
       redirect to '/login'
     end
   end
@@ -43,7 +39,6 @@ class TweetsController < ApplicationController
       @tweet = Tweet.find_by(id: params[:id])
       erb :"/tweets/show_tweet"
     else
-      flash[:error] = "You must be logged in to complete that action."
       redirect :'/login'
     end
   end
@@ -57,7 +52,6 @@ class TweetsController < ApplicationController
           redirect to '/tweets'
         end
       else
-        flash[:error] = "You must be logged in to complete that action."
         redirect :'/login'
       end
     end
@@ -65,16 +59,13 @@ class TweetsController < ApplicationController
   patch '/tweets/:id' do
     if logged_in?
       if params[:content == ""]
-        flash[:error] = "Please enter Tweet update"
         redirect to "/tweets/#{params[:id]/edit}"
       else
         @tweet = Tweet.find(params[:id])
         if @tweet && @tweet.user == current_user
           if @tweet.update(content: params[:content])
-            flash[:message] = "Tweet Update Successful"
             redirect to "/tweets/#{@tweet.id}"
           else
-            flash[:error] = "Tweet Update Unsuccessful"
             redirect to "/tweets/#{@tweet.id}/edit"
           end
         else
@@ -82,7 +73,6 @@ class TweetsController < ApplicationController
         end
       end
     else
-      flash[:error] = "You must be logged in to complete that action."
       redirect to '/login'
     end
   end
@@ -93,10 +83,8 @@ class TweetsController < ApplicationController
       if @tweet && @tweet.user == current_user
         @tweet.destroy
       end
-      flash[:message] = "Tweet Delete Successful"
       redirect '/tweets'
     else
-      flash[:error] = "You must be logged in to complete that action."
       redirect :'/login'
     end
   end

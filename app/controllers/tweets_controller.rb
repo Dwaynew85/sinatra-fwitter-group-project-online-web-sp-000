@@ -50,13 +50,17 @@ class TweetsController < ApplicationController
 
   get '/tweets/:id/edit' do
     if logged_in?
-      @tweet = Twee.find_by(id: params[:id])
-      erb :"/tweets/edit_tweet"
-    else
-      flash[:error] = "You must be logged in to complete that action."
-      redirect :'/login'
+        @tweet = Twee.find_by(id: params[:id])
+        if @tweet && @tweet.user == current_user
+          erb :"/tweets/edit_tweet"
+        else
+          redirect to '/tweets'
+        end
+      else 
+        flash[:error] = "You must be logged in to complete that action."
+        redirect :'/login'
+      end
     end
-  end
 
   patch '/tweets' do
     @tweet = Tweet.find(params[:id])

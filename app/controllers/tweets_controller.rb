@@ -62,12 +62,29 @@ class TweetsController < ApplicationController
       end
     end
 
-  patch '/tweets' do
-    @tweet = Tweet.find(params[:id])
-    @tweet.uptdate(params)
-    @tweet.save
-
-    redirect "/tweets/#{@tweet.id}"
+  patch '/tweets/:id' do
+    if logged_in?
+      if params[:content == ""]
+        flash[:error] = "Please enter Tweet update"
+        redirect to "/tweets/#{params[:id]/edit}"
+      else
+        @tweet = Tweet.find(params[:id])
+        if @tweet && @tweet.user == current_user
+          if @tweet.update(content: params[:content])
+            flash[:message] = "Tweet Update Successful"
+            redirect to "/tweets/#{@tweet.id}"
+          else 
+            flash[:error] = "Tweet Update Unsuccessful"
+            redirect to "/tweets/#{@tweet.id}/edit"
+          end
+        else
+          redirect "/tweets"
+        end
+      end 
+    else
+      flash[:error] = "You must be logged in to complete that action."
+      redirect to '/login'
+    end
   end
 
   delete '/tweets/:id' do

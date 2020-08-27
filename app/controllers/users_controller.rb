@@ -1,10 +1,15 @@
 class UsersController < ApplicationController
 
-  get '/signup' do # signup link in home page
+  get '/users/:slug' do
+    @user = User.find_by_slug(params[:slug])
+    erb :'users/show'
+  end
+
+  get '/signup' do
     erb :"/users/create_user"
   end
 
-  post '/signup' do # did you do the sign up link?
+  post '/signup' do
     if logged_in?
       redirect "/tweets"
     else

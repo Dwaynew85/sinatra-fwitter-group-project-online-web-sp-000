@@ -39,20 +39,19 @@ class UsersController < ApplicationController
       flash[:message] = "Welcome back, #{user.username}!"
       redirect to "/tweets"
     else
-      flash[:error] = "You must be logged in to complete that action."
-      redirect to '/login'
+      flash[:error] = "You must sign up in order to log in"
+      redirect to '/signup'
     end
   end
 
-  get '/users/:id' do
-    @user = User.find_by(id: params[:id])
-    @tweets = Tweet.all
-    redirect :"/users/show"
-  end
-
   get '/logout' do
-    session.clear
-    redirect '/login'
+    if logged_in?
+      session.clear
+      flash[:message] "Log Out Successful"
+      redirect '/login'
+    else 
+      redirect to '/'
+    end 
   end
 
 end

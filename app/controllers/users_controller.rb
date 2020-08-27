@@ -36,9 +36,11 @@ class UsersController < ApplicationController
     user = User.find_by(email: params[:email])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect "/tweets"
+      flash[:message] = "Welcome back, #{user.username}!"
+      redirect to "/tweets"
     else
-      redirect '/login'
+      flash[:error] = "You must be logged in to complete that action."
+      redirect to '/login'
     end
   end
 
